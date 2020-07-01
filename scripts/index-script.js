@@ -2,6 +2,7 @@ var trackList = new Array();
 var tempo = 120;
 var _Playing = false;
 
+//Track class stores a tracks sample, tab number, and notelist for a specific track
 class Track {
     constructor(trackTabNumber, sampleReference) {
         this.trackTabNumber = trackTabNumber;
@@ -24,11 +25,11 @@ class Track {
         else {
             this.spIndex++;
         }
-        console.log(this.spIndex);
         this.samplePlayer[this.spIndex].play();
     }
 }
 
+//Run when JQuery document is loaded
 $(document).ready(function () {
     $("#tempo-ctrl").val(tempo);
 
@@ -52,15 +53,18 @@ $(document).ready(function () {
     });
 });
 
+//Getters and Setters
 function setTempo() { tempo = $("#tempo-ctrl").val(); }
 function getMilisecondsFromTempo() { return (60000 / tempo) / 4; }
 
+//Create track objects and store in track list
 function buildTracks() {
     let i = 0;
     trackList[i] = new Track(i, "samples/os-sidestick.mp3");
     console.log(trackList[i]);
 }
 
+//Set and trigger first noteblock, and start recursion
 function playSequence() {
     var firstNoteblock = $(".note-block").first();
 
@@ -68,6 +72,7 @@ function playSequence() {
     triggerNoteblock(firstNoteblock);
 }
 
+//Trigger a specific noteblock, and loop to the next noteblock if _Playing is true
 function triggerNoteblock(noteblock) {
     if ($(noteblock).hasClass("active-nb")) {
         trackList[0].play();
@@ -87,10 +92,12 @@ function triggerNoteblock(noteblock) {
     });
 }
 
+//Set _Playing to false, stopping recursion in playSequence() and triggerNoteblock() functions
 function stopSequence() {
     _Playing = false;
 }
 
+//If a selected noteblock is active, set to inactive. If a selected noteblock is inactive, set to active.
 function toggleActiveNote(noteblock) {
     if ($(noteblock).hasClass("active-nb")) {
         $(noteblock).removeClass("active-nb")
