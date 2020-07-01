@@ -1,4 +1,4 @@
-var allSamples = new Array();
+var trackSamples = new Array();
 var tempo = 120;
 var _Playing = false;
 
@@ -29,8 +29,16 @@ function setTempo() { tempo = $("#tempo-ctrl").val(); }
 function getMilisecondsFromTempo() { return (60000 / tempo) / 4; }
 
 function loadAllSamples() {
-    allSamples.push(new Audio("samples/os-sidestick.mp3"));
-    allSamples.type = "audio/mp3";
+    for (let i = 0; i <= 15; i++) {
+        trackSamples.push(new Audio("samples/os-sidestick.mp3"));
+        trackSamples[0].type = "audio/mp3";
+    }
+
+    console.log(trackSamples);
+}
+
+function triggerSample(noteNumber) {
+    trackSamples[noteNumber].play();
 }
 
 function playSequence() {
@@ -41,7 +49,9 @@ function playSequence() {
 }
 
 function triggerNoteblock(noteblock) {
-    allSamples[0].play();
+    if ($(noteblock).hasClass("active-nb")) {
+        triggerSample($(noteblock).attr("data-note-number"));
+    }
 
     $(noteblock).addClass("triggered-nb").delay(getMilisecondsFromTempo()).queue(function () {
         $(this).removeClass("triggered-nb").dequeue();
