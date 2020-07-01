@@ -1,3 +1,17 @@
-body{
+.track-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly
+}
+
+.note-block{
+    border: 1px solid black;
+
+    width: 40px;
+    height: 60px;
+    background-color: grey;
+}
+
+.active-nb{
     background-color: red;
 }
