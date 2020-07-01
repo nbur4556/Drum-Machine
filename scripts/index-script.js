@@ -25,22 +25,18 @@ function playSequence() {
 }
 
 function triggerNoteblock(noteblock) {
-
     $(noteblock).addClass("triggered-nb").delay(tempo).queue(function () {
-
         $(this).removeClass("triggered-nb").dequeue();
 
         if (_Playing && $(noteblock)) {
-            if ($(this).next().attr("class") == $(this).attr("class")) {
+            if ($(this).next().hasClass("note-block")) {
                 triggerNoteblock($(this).next());
             }
             else {
                 triggerNoteblock($(".note-block").first());
             }
         }
-
     });
-
 }
 
 function stopSequence() {
@@ -50,11 +46,10 @@ function stopSequence() {
 function toggleActiveNote(noteblock) {
     console.log($(noteblock).attr("class"));
 
-    if ($(noteblock).attr("class") == "note-block active-nb") {
+    if ($(noteblock).hasClass("active-nb")) {
         $(noteblock).removeClass("active-nb")
     }
     else {
         $(noteblock).addClass("active-nb")
     }
-
 }
