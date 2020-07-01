@@ -1,4 +1,10 @@
 /*===== LAYOUT SECTIONS =====*/
+.controls-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
 .track-tabs-section{
     display: flex;
     flex-direction: row;
@@ -14,6 +20,15 @@
 }
 
 /*===== ELEMENTS =====*/
+.control-btn{
+    border: 1px solid black;
+
+    width: 50px;
+    height: 30px;
+
+    text-align: center;
+}
+
 .track-tab{
     border: 1px solid black;
 
