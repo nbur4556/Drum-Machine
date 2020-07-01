@@ -1,3 +1,4 @@
+//Variables
 var trackList = new Array();
 var tempo = 120;
 var _Playing = false;
@@ -7,15 +8,24 @@ class Track {
     constructor(trackTabNumber, sampleReference) {
         this.trackTabNumber = trackTabNumber;
         this.sampleReference = sampleReference;
-        this.samplePlayer = [
-            new Audio(sampleReference),
-            new Audio(sampleReference),
-            new Audio(sampleReference),
-            new Audio(sampleReference),
-            new Audio(sampleReference)
-        ];
-        this.noteList = new Array(15);
+        this.samplePlayer = new Array();
+        this.noteList = new Array();
         this.spIndex = 0;
+
+        this.buildSamplePlayer();
+        this.buildNoteList();
+    }
+
+    buildSamplePlayer() {
+        for (var i = 0; i < 5; i++) {
+            this.samplePlayer.push(new Audio(this.sampleReference));
+        }
+    }
+
+    buildNoteList() {
+        for (var i = 0; i < 15; i++) {
+            this.noteList.push(false);
+        }
     }
 
     play() {
@@ -29,7 +39,7 @@ class Track {
     }
 }
 
-//Run when JQuery document is loaded
+//Run when JQuery document is loaded. Initializes the program
 $(document).ready(function () {
     $("#tempo-ctrl").val(tempo);
 
@@ -48,6 +58,9 @@ $(document).ready(function () {
     $("#pause-btn").on("click", function () {
         stopSequence();
     })
+    $("#clear-btn").on("click", function () {
+        clearNoteblocks();
+    });
     $(".note-block").on("click", function () {
         toggleActiveNote(this);
     });
@@ -61,7 +74,6 @@ function getMilisecondsFromTempo() { return (60000 / tempo) / 4; }
 function buildTracks() {
     let i = 0;
     trackList[i] = new Track(i, "samples/os-sidestick.mp3");
-    console.log(trackList[i]);
 }
 
 //Set and trigger first noteblock, and start recursion
@@ -104,5 +116,13 @@ function toggleActiveNote(noteblock) {
     }
     else {
         $(noteblock).addClass("active-nb")
+    }
+}
+
+//Clears active class from all noteblocks
+function clearNoteblocks() {
+    $(".note-block").removeClass("active-nb");
+    for (let i = 0; i < trackList.length; i++) {
+        trackList[i].buildNoteList();
     }
 }
