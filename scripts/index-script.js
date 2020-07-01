@@ -1,5 +1,5 @@
 var _Playing = false;
-var tempo = 120;
+var tempo = 90;
 
 $(document).ready(function () {
     //Listeners
@@ -12,6 +12,9 @@ $(document).ready(function () {
     $("#pause-btn").on("click", function () {
         stopSequence();
     })
+    $(".note-block").on("click", function () {
+        toggleActiveNote(this);
+    });
 });
 
 function playSequence() {
@@ -23,9 +26,9 @@ function playSequence() {
 
 function triggerNoteblock(noteblock) {
 
-    $(noteblock).addClass("active-nb").delay(tempo).queue(function () {
+    $(noteblock).addClass("triggered-nb").delay(tempo).queue(function () {
 
-        $(this).removeClass("active-nb").dequeue();
+        $(this).removeClass("triggered-nb").dequeue();
 
         if (_Playing && $(noteblock)) {
             if ($(this).next().attr("class") == $(this).attr("class")) {
@@ -42,4 +45,16 @@ function triggerNoteblock(noteblock) {
 
 function stopSequence() {
     _Playing = false;
+}
+
+function toggleActiveNote(noteblock) {
+    console.log($(noteblock).attr("class"));
+
+    if ($(noteblock).attr("class") == "note-block active-nb") {
+        $(noteblock).removeClass("active-nb")
+    }
+    else {
+        $(noteblock).addClass("active-nb")
+    }
+
 }

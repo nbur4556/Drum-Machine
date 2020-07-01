@@ -49,3 +49,7 @@
 .active-nb{
     background-color: red;
 }
+
+.triggered-nb{
+    background-color: green;
+}
