@@ -24,11 +24,19 @@ function playSequence() {
 function triggerNoteblock(noteblock) {
 
     $(noteblock).addClass("active-nb").delay(tempo).queue(function () {
-        $(this).removeClass("active-nb");
-        if (_Playing) {
-            triggerNoteblock($(noteblock).next());
+
+        $(this).removeClass("active-nb").dequeue();
+
+        if (_Playing && $(noteblock)) {
+            if ($(this).next().attr("class") == $(this).attr("class")) {
+                triggerNoteblock($(this).next());
+            }
+            else {
+                triggerNoteblock($(".note-block").first());
+            }
         }
-    })
+
+    });
 
 }
 
