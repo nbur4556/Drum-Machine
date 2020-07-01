@@ -1,7 +1,26 @@
-.track-section{
+/*===== LAYOUT SECTIONS =====*/
+.track-tabs-section{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly
+    justify-content: right;
+}
+
+.note-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    border: 1px solid black;
+}
+
+/*===== ELEMENTS =====*/
+.track-tab{
+    border: 1px solid black;
+
+    width: 80px;
+    height: 30px;
+
+    text-align: center;
 }
 
 .note-block{
