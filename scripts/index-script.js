@@ -1,11 +1,38 @@
-var trackSamples = new Array();
+var trackList = new Array();
 var tempo = 120;
 var _Playing = false;
+
+class Track {
+    constructor(trackTabNumber, sampleReference) {
+        this.trackTabNumber = trackTabNumber;
+        this.sampleReference = sampleReference;
+        this.samplePlayer = [
+            new Audio(sampleReference),
+            new Audio(sampleReference),
+            new Audio(sampleReference),
+            new Audio(sampleReference),
+            new Audio(sampleReference)
+        ];
+        this.noteList = new Array(15);
+        this.spIndex = 0;
+    }
+
+    play() {
+        if (this.spIndex >= this.samplePlayer.length - 1) {
+            this.spIndex = 0;
+        }
+        else {
+            this.spIndex++;
+        }
+        console.log(this.spIndex);
+        this.samplePlayer[this.spIndex].play();
+    }
+}
 
 $(document).ready(function () {
     $("#tempo-ctrl").val(tempo);
 
-    loadAllSamples();
+    buildTracks();
 
     //Listeners
     $("#tempo-ctrl").on("click", function () {
@@ -28,17 +55,10 @@ $(document).ready(function () {
 function setTempo() { tempo = $("#tempo-ctrl").val(); }
 function getMilisecondsFromTempo() { return (60000 / tempo) / 4; }
 
-function loadAllSamples() {
-    for (let i = 0; i <= 15; i++) {
-        trackSamples.push(new Audio("samples/os-sidestick.mp3"));
-        trackSamples[0].type = "audio/mp3";
-    }
-
-    console.log(trackSamples);
-}
-
-function triggerSample(noteNumber) {
-    trackSamples[noteNumber].play();
+function buildTracks() {
+    let i = 0;
+    trackList[i] = new Track(i, "samples/os-sidestick.mp3");
+    console.log(trackList[i]);
 }
 
 function playSequence() {
@@ -50,7 +70,7 @@ function playSequence() {
 
 function triggerNoteblock(noteblock) {
     if ($(noteblock).hasClass("active-nb")) {
-        triggerSample($(noteblock).attr("data-note-number"));
+        trackList[0].play();
     }
 
     $(noteblock).addClass("triggered-nb").delay(getMilisecondsFromTempo()).queue(function () {
