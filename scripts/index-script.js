@@ -1,10 +1,15 @@
 var _Playing = false;
-var tempo = 90;
+var tempo = 120;
 
 $(document).ready(function () {
+    $("#tempo-ctrl").val(tempo);
+
     //Listeners
+    $("#tempo-ctrl").on("click", function () {
+        setTempo();
+    });
     $("#play-btn").on("click", function () {
-        playSequence();
+        if (!_Playing) { playSequence(); }
     });
     $("#stop-btn").on("click", function () {
         stopSequence();
@@ -25,7 +30,7 @@ function playSequence() {
 }
 
 function triggerNoteblock(noteblock) {
-    $(noteblock).addClass("triggered-nb").delay(tempo).queue(function () {
+    $(noteblock).addClass("triggered-nb").delay(getMilisecondsFromTempo()).queue(function () {
         $(this).removeClass("triggered-nb").dequeue();
 
         if (_Playing && $(noteblock)) {
@@ -44,12 +49,18 @@ function stopSequence() {
 }
 
 function toggleActiveNote(noteblock) {
-    console.log($(noteblock).attr("class"));
-
     if ($(noteblock).hasClass("active-nb")) {
         $(noteblock).removeClass("active-nb")
     }
     else {
         $(noteblock).addClass("active-nb")
     }
+}
+
+function setTempo() {
+    tempo = $("#tempo-ctrl").val();
+}
+
+function getMilisecondsFromTempo() {
+    return (60000 / tempo) / 4;
 }
